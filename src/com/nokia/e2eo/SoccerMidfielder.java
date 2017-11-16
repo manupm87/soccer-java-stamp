@@ -1,18 +1,30 @@
 package com.nokia.e2eo;
 
-public class SoccerMidfielder extends SoccerPlayer implements Midfielder{
+import java.util.Random;
+
+public class SoccerMidfielder extends SoccerPlayer implements Midfielder {
 
 	public SoccerMidfielder(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
 		super(name, attack, defense, dribbling, max_stamina);
-		this.setDefense(this.getDefense() * Midfielder.defense_multiplier);
-		this.setAttack(this.getAttack() * Midfielder.attack_multiplier);
+		this.setDefense(this.getDefense() * Midfielder.DEFENSE_MULTIPLIER);
+		this.setAttack(this.getAttack() * Midfielder.ATTACK_MULTIPLIER);
 	}
 
 	@Override
 	void play() {
-		// TODO Auto-generated method stub
-		
+		super.play();
+		if (this.hasBall()) {
+			if (Math.random() < this.PASS_SHOOT_RATIO) {
+				this.pass();
+			} else {
+				this.shoot();
+			}
+		} else {
+			this.log("Moving around...");
+		}
+
 	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -21,26 +33,43 @@ public class SoccerMidfielder extends SoccerPlayer implements Midfielder{
 
 	@Override
 	public void pass() {
-		// TODO Auto-generated method stub
-		
+		if (Math.random() < this.PASS_BACK_FORTH_RATIO) {
+			this.passBackwards();
+		} else {
+			this.passForward();
+		}
+
 	}
 
 	@Override
 	public void passForward() {
-		// TODO Auto-generated method stub
-		
+		Random rand = new Random();
+		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getStrikers()
+				.get(rand.nextInt(this.getTeam().getStrikers().size()));
+		this.releaseBall();
+		mate.receiveBall();
+		this.log(String.format("Passing forward to %s...", mate.getName()));
+
 	}
 
 	@Override
 	public void passBackwards() {
-		// TODO Auto-generated method stub
-		
+		Random rand = new Random();
+		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getDefenders()
+				.get(rand.nextInt(this.getTeam().getDefenders().size()));
+		this.releaseBall();
+		mate.receiveBall();
+		this.log(String.format("Passing backwards to %s...", mate.getName()));
+
 	}
 
 	@Override
 	public void shoot() {
-		// TODO Auto-generated method stub
+		this.log("Shooting!");
+		this.releaseBall();
 		
+		this.scoreGoal();
+
 	}
 
 }

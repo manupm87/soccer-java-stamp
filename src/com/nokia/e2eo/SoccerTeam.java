@@ -9,18 +9,18 @@ public class SoccerTeam {
 	
 	private String name;
 	private List<SoccerPlayer> players;
-	private SoccerPlayer goalkeeper;
-	private List<SoccerPlayer> defenders;
-	private List<SoccerPlayer> midfielders;
-	private List<SoccerPlayer> strikers;
+	private Goalkeeper goalkeeper;
+	private List<Defender> defenders;
+	private List<Midfielder> midfielders;
+	private List<Striker> strikers;
 	private List<SoccerPlayer> substitutes;
 	
 	public SoccerTeam(String name) {
 		this.name = name;
 		this.players = new ArrayList<SoccerPlayer>();
-		this.defenders = new ArrayList<SoccerPlayer>();
-		this.midfielders = new ArrayList<SoccerPlayer>();
-		this.strikers = new ArrayList<SoccerPlayer>();
+		this.defenders = new ArrayList<>();
+		this.midfielders = new ArrayList<>();
+		this.strikers = new ArrayList<>();
 	}
 	
 	private void addPlayer(SoccerPlayer player) {
@@ -28,30 +28,42 @@ public class SoccerTeam {
 		player.setTeam(this);
 	}
 	
-	public void addGoalkeeper(SoccerPlayer player) {
+	public void addGoalkeeper(SoccerGoalkeeper player) {
 		this.addPlayer(player);
 		goalkeeper = player;
 	}
 	
-	public void addDefender(SoccerPlayer player) {
+	public void addDefender(SoccerDefender player) {
 		this.addPlayer(player);
 		defenders.add(player);
 	}
 	
-	public void addMidfielder(SoccerPlayer player) {
+	public void addMidfielder(SoccerMidfielder player) {
 		this.addPlayer(player);
 		midfielders.add(player);
 	}
 	
 	public void addStriker(SoccerPlayer player) {
 		this.addPlayer(player);
-		strikers.add(player);
+		strikers.add((SoccerStriker) player);
 	}
 	
 	public void addObserver(Observer o) {
 		for (SoccerPlayer player : players) {
 			player.addObserver(o);
 		}
+	}
+	
+	public void play() {
+		for (SoccerPlayer soccerPlayer : players) {
+			soccerPlayer.play();
+		}	
+	}
+	
+	public void kickOff() {
+		Striker striker = this.strikers.get(0);
+		striker.kickOff();
+		
 	}
 
 	public List<SoccerPlayer> getPlayers() {
@@ -62,35 +74,35 @@ public class SoccerTeam {
 		this.players = players;
 	}
 
-	public SoccerPlayer getGoalkeeper() {
+	public Goalkeeper getGoalkeeper() {
 		return goalkeeper;
 	}
 
-	public void setGoalkeeper(SoccerPlayer goalkeeper) {
+	public void setGoalkeeper(SoccerGoalkeeper goalkeeper) {
 		this.goalkeeper = goalkeeper;
 	}
 
-	public List<SoccerPlayer> getDefenders() {
+	public List<Defender> getDefenders() {
 		return defenders;
 	}
 
-	public void setDefenders(List<SoccerPlayer> defenders) {
+	public void setDefenders(List<Defender> defenders) {
 		this.defenders = defenders;
 	}
 
-	public List<SoccerPlayer> getMidfielders() {
+	public List<Midfielder> getMidfielders() {
 		return midfielders;
 	}
 
-	public void setMidfielders(List<SoccerPlayer> midfielders) {
+	public void setMidfielders(List<Midfielder> midfielders) {
 		this.midfielders = midfielders;
 	}
 
-	public List<SoccerPlayer> getStrikers() {
+	public List<Striker> getStrikers() {
 		return strikers;
 	}
 
-	public void setStrikers(List<SoccerPlayer> strikers) {
+	public void setStrikers(List<Striker> strikers) {
 		this.strikers = strikers;
 	}
 	
@@ -120,6 +132,5 @@ public class SoccerTeam {
 		}
 		return sTeam.toString();
 	}
-	
 	
 }

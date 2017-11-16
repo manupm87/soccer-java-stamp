@@ -27,7 +27,6 @@ public abstract class SoccerPlayer extends Observable{
 	}
 	
 	public void scoreGoal() {
-		System.out.println(this.name + " scored an amazing goal!!!");
 		this.setChanged();
 		this.notifyObservers();
 	}
@@ -45,8 +44,19 @@ public abstract class SoccerPlayer extends Observable{
 		return this.haveBall;
 	}
 	
-	public void giveBall() {
+	public void releaseBall() {
+		this.haveBall = false;
+	}
+	
+	public void receiveBall() {
 		this.haveBall = true;
+	}
+	
+	public String log(String message) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("%s [%s]: %s\r\n", this.name, this.getClass().getSimpleName(), message));
+		System.out.println(sb.toString());
+		return sb.toString();
 	}
 	
 	
@@ -99,6 +109,13 @@ public abstract class SoccerPlayer extends Observable{
 		this.team = team;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public String toString() {
@@ -107,4 +124,5 @@ public abstract class SoccerPlayer extends Observable{
 				this.defense, this.dribbling, this.cur_stamina, this.max_stamina);
 		return representation;
 	}
+
 }
