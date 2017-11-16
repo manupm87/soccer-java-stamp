@@ -2,6 +2,9 @@ package com.nokia.e2eo;
 
 import java.util.Observable;
 
+import com.nokia.e2eo.util.RNG;
+import com.nokia.e2eo.util.RandomNumberGenerator;
+
 public abstract class SoccerPlayer extends Observable {
 	public static final Integer stamina_consumption = 5;
 	public static final Integer stamina_restoration = 10;
@@ -16,6 +19,8 @@ public abstract class SoccerPlayer extends Observable {
 	public Integer max_stamina;
 	public Integer cur_stamina;
 	public Boolean haveBall = false;
+	
+	protected RandomNumberGenerator rng;
 
 	public SoccerPlayer(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
 		super();
@@ -24,6 +29,7 @@ public abstract class SoccerPlayer extends Observable {
 		this.defense = defense;
 		this.dribbling = dribbling;
 		this.max_stamina = this.cur_stamina = max_stamina;
+		this.rng = RNG.getInstance();
 	}
 
 	public void scoreGoal() {
@@ -115,6 +121,10 @@ public abstract class SoccerPlayer extends Observable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setRng(RandomNumberGenerator rng) {
+		this.rng = rng;
 	}
 
 	@Override

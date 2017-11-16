@@ -2,6 +2,8 @@ package com.nokia.e2eo;
 
 import java.util.Random;
 
+import com.nokia.e2eo.util.RNG;
+
 public class SoccerStriker extends SoccerPlayer implements Striker {
 
 	private Float PASS_SHOOT_RATIO;
@@ -28,6 +30,8 @@ public class SoccerStriker extends SoccerPlayer implements Striker {
 
 		SoccerStriker striker = new SoccerStriker(name, attack, defense, dribbling, max_stamina);
 		striker.PASS_SHOOT_RATIO = 0.2f;
+		striker.ATTACK_MULTIPLIER = 2.2f;
+		striker.DEFENSE_MULTIPLIER = 0.2f;
 		return striker;
 	}
 
@@ -42,7 +46,7 @@ public class SoccerStriker extends SoccerPlayer implements Striker {
 	@Override
 	void playImp() {
 		if (this.hasBall()) {
-			if (Math.random() < this.PASS_SHOOT_RATIO) {
+			if (this.rng.random() < this.PASS_SHOOT_RATIO) {
 				this.passBackwards();
 			} else {
 				this.shoot();
