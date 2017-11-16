@@ -4,15 +4,41 @@ import java.util.Random;
 
 public class SoccerMidfielder extends SoccerPlayer implements Midfielder {
 
-	public SoccerMidfielder(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
+	private Float ATTACK_MULTIPLIER = 1.2f;
+	private Float DEFENSE_MULTIPLIER = 1.2f;
+	private Float PASS_SHOOT_RATIO = 0.8f;
+	private Float PASS_BACK_FORTH_RATIO = 0.5f;
+
+	private SoccerMidfielder(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
 		super(name, attack, defense, dribbling, max_stamina);
-		this.setDefense(this.getDefense() * Midfielder.DEFENSE_MULTIPLIER);
-		this.setAttack(this.getAttack() * Midfielder.ATTACK_MULTIPLIER);
+		this.setDefense(this.getDefense() * this.DEFENSE_MULTIPLIER);
+		this.setAttack(this.getAttack() * this.ATTACK_MULTIPLIER);
+	}
+
+	public static SoccerMidfielder defaultMidfielder(String name, Float attack, Float defense, Float dribbling,
+			Integer max_stamina) {
+		SoccerMidfielder midfielder = new SoccerMidfielder(name, attack, defense, dribbling, max_stamina);
+		return midfielder;
+	}
+
+	public static SoccerMidfielder offensiveMidfielder(String name, Float attack, Float defense, Float dribbling,
+			Integer max_stamina) {
+		SoccerMidfielder midfielder = new SoccerMidfielder(name, attack, defense, dribbling, max_stamina);
+		midfielder.PASS_SHOOT_RATIO = 0.6f;
+		midfielder.PASS_BACK_FORTH_RATIO = 0.3f;
+		return midfielder;
+	}
+
+	public static SoccerMidfielder defensiveMidfielder(String name, Float attack, Float defense, Float dribbling,
+			Integer max_stamina) {
+		SoccerMidfielder midfielder = new SoccerMidfielder(name, attack, defense, dribbling, max_stamina);
+		midfielder.PASS_SHOOT_RATIO = 0.9f;
+		midfielder.PASS_BACK_FORTH_RATIO = 0.7f;
+		return midfielder;
 	}
 
 	@Override
-	void play() {
-		super.play();
+	void playImp() {
 		if (this.hasBall()) {
 			if (Math.random() < this.PASS_SHOOT_RATIO) {
 				this.pass();
@@ -20,7 +46,7 @@ public class SoccerMidfielder extends SoccerPlayer implements Midfielder {
 				this.shoot();
 			}
 		} else {
-			this.log("Moving around...");
+			// this.log("Moving around...");
 		}
 
 	}
@@ -67,7 +93,7 @@ public class SoccerMidfielder extends SoccerPlayer implements Midfielder {
 	public void shoot() {
 		this.log("Shooting!");
 		this.releaseBall();
-		
+
 		this.scoreGoal();
 
 	}

@@ -4,24 +4,51 @@ import java.util.Random;
 
 public class SoccerStriker extends SoccerPlayer implements Striker {
 
-	public SoccerStriker(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
+	private Float PASS_SHOOT_RATIO;
+	private Float DEFENSE_MULTIPLIER;
+	private Float ATTACK_MULTIPLIER;
+
+	private SoccerStriker(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
 		super(name, attack, defense, dribbling, max_stamina);
-		this.setDefense(this.getDefense() * Striker.DEFENSE_MULTIPLIER);
-		this.setAttack(this.getAttack() * Striker.ATTACK_MULTIPLIER);
+		this.PASS_SHOOT_RATIO = 0.5f;
+		this.DEFENSE_MULTIPLIER = 0.5f;
+		this.ATTACK_MULTIPLIER = 2f;
+		this.setDefense(this.getDefense() * this.DEFENSE_MULTIPLIER);
+		this.setAttack(this.getAttack() * this.ATTACK_MULTIPLIER);
+	}
+
+	public static SoccerStriker defaultStriker(String name, Float attack, Float defense, Float dribbling,
+			Integer max_stamina) {
+
+		return new SoccerStriker(name, attack, defense, dribbling, max_stamina);
+	}
+
+	public static SoccerStriker shooterStriker(String name, Float attack, Float defense, Float dribbling,
+			Integer max_stamina) {
+
+		SoccerStriker striker = new SoccerStriker(name, attack, defense, dribbling, max_stamina);
+		striker.PASS_SHOOT_RATIO = 0.2f;
+		return striker;
+	}
+
+	public static SoccerStriker passerStriker(String name, Float attack, Float defense, Float dribbling,
+			Integer max_stamina) {
+
+		SoccerStriker striker = new SoccerStriker(name, attack, defense, dribbling, max_stamina);
+		striker.PASS_SHOOT_RATIO = 0.8f;
+		return striker;
 	}
 
 	@Override
-	void play() {
-		super.play();
+	void playImp() {
 		if (this.hasBall()) {
 			if (Math.random() < this.PASS_SHOOT_RATIO) {
 				this.passBackwards();
 			} else {
 				this.shoot();
 			}
-		}
-		else {
-			this.log("Moving around...");
+		} else {
+			// this.log("Moving around...");
 		}
 
 	}
@@ -50,7 +77,8 @@ public class SoccerStriker extends SoccerPlayer implements Striker {
 	@Override
 	public void passBackwards() {
 		Random rand = new Random();
-		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getMidfielders().get(rand.nextInt(this.getTeam().getMidfielders().size()));
+		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getMidfielders()
+				.get(rand.nextInt(this.getTeam().getMidfielders().size()));
 		this.releaseBall();
 		mate.receiveBall();
 		this.log(String.format("Passing backwards to %s...", mate.getName()));

@@ -1,12 +1,11 @@
 package com.nokia.e2eo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observer;
 
 public class SoccerTeam {
-	
+
 	private String name;
 	private List<SoccerPlayer> players;
 	private Goalkeeper goalkeeper;
@@ -14,7 +13,7 @@ public class SoccerTeam {
 	private List<Midfielder> midfielders;
 	private List<Striker> strikers;
 	private List<SoccerPlayer> substitutes;
-	
+
 	public SoccerTeam(String name) {
 		this.name = name;
 		this.players = new ArrayList<SoccerPlayer>();
@@ -22,48 +21,48 @@ public class SoccerTeam {
 		this.midfielders = new ArrayList<>();
 		this.strikers = new ArrayList<>();
 	}
-	
+
 	private void addPlayer(SoccerPlayer player) {
 		players.add(player);
 		player.setTeam(this);
 	}
-	
+
 	public void addGoalkeeper(SoccerGoalkeeper player) {
 		this.addPlayer(player);
 		goalkeeper = player;
 	}
-	
+
 	public void addDefender(SoccerDefender player) {
 		this.addPlayer(player);
 		defenders.add(player);
 	}
-	
+
 	public void addMidfielder(SoccerMidfielder player) {
 		this.addPlayer(player);
 		midfielders.add(player);
 	}
-	
+
 	public void addStriker(SoccerPlayer player) {
 		this.addPlayer(player);
 		strikers.add((SoccerStriker) player);
 	}
-	
+
 	public void addObserver(Observer o) {
 		for (SoccerPlayer player : players) {
 			player.addObserver(o);
 		}
 	}
-	
+
 	public void play() {
 		for (SoccerPlayer soccerPlayer : players) {
 			soccerPlayer.play();
-		}	
+		}
 	}
-	
+
 	public void kickOff() {
 		Striker striker = this.strikers.get(0);
 		striker.kickOff();
-		
+
 	}
 
 	public List<SoccerPlayer> getPlayers() {
@@ -105,8 +104,7 @@ public class SoccerTeam {
 	public void setStrikers(List<Striker> strikers) {
 		this.strikers = strikers;
 	}
-	
-	
+
 	public String getName() {
 		return name;
 	}
@@ -132,5 +130,5 @@ public class SoccerTeam {
 		}
 		return sTeam.toString();
 	}
-	
+
 }

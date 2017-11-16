@@ -30,7 +30,7 @@ public class SoccerMatch implements Observer {
 		}
 
 	}
-	
+
 	public void play() {
 		this.remainingPlays--;
 		if (this.remainingPlays >= 0) {
@@ -88,7 +88,7 @@ public class SoccerMatch implements Observer {
 		sMatch.append(this.teamB.toString() + "\r\n");
 		return sMatch.toString();
 	}
-	
+
 	public String logResult() {
 		return String.format("Match: %s - %d : %d - %s \t(%d)\r\n", this.teamA.getName(), this.scoreTeamA,
 				this.scoreTeamB, this.teamB.getName(), this.remainingPlays);
@@ -98,25 +98,25 @@ public class SoccerMatch implements Observer {
 		SoccerMatch match = new SoccerMatch();
 
 		SoccerTeam pheromaniacsFC = new SoccerTeam("Pheromaniacs F.C.");
-		pheromaniacsFC.addGoalkeeper(new SoccerGoalkeeper("Zsombor", 10f, 10f, 10f, 100));
-		pheromaniacsFC.addDefender(new SoccerDefender("Csabi", 10f, 10f, 10f, 100));
-		pheromaniacsFC.addMidfielder(new SoccerMidfielder("Manu", 10f, 10f, 10f, 100));
-		pheromaniacsFC.addStriker(new SoccerStriker("Attila", 10f, 10f, 10f, 100));
+		pheromaniacsFC.addGoalkeeper(SoccerGoalkeeper.defaultGoalkeeper("Zsombor", 10f, 10f, 10f, 100));
+		pheromaniacsFC.addDefender(SoccerDefender.defaultDefender("Csabi", 10f, 10f, 10f, 100));
+		pheromaniacsFC.addMidfielder(SoccerMidfielder.offensiveMidfielder("Manu", 10f, 10f, 10f, 100));
+		pheromaniacsFC.addStriker(SoccerStriker.shooterStriker("Attila", 10f, 10f, 10f, 100));
 		pheromaniacsFC.addObserver(match);
 		match.setTeamA(pheromaniacsFC);
 
 		SoccerTeam pheromaniacsFCbis = new SoccerTeam("Hungaricum F.C.");
-		pheromaniacsFCbis.addGoalkeeper(new SoccerGoalkeeper("Mark", 10f, 10f, 10f, 100));
-		pheromaniacsFCbis.addDefender(new SoccerDefender("HPeti", 10f, 10f, 10f, 100));
-		pheromaniacsFCbis.addMidfielder(new SoccerMidfielder("Csati", 10f, 10f, 10f, 100));
-		pheromaniacsFCbis.addStriker(new SoccerStriker("Zsoltaldo", 10f, 10f, 10f, 100));
+		pheromaniacsFCbis.addGoalkeeper(SoccerGoalkeeper.ofensiveGoalkeeper("Mark", 10f, 10f, 10f, 100));
+		pheromaniacsFCbis.addDefender(SoccerDefender.conservativeDefender("HPeti", 10f, 10f, 10f, 100));
+		pheromaniacsFCbis.addMidfielder(SoccerMidfielder.defensiveMidfielder("Csati", 10f, 10f, 10f, 100));
+		pheromaniacsFCbis.addStriker(SoccerStriker.defaultStriker("Zsoltaldo", 10f, 10f, 10f, 100));
 		pheromaniacsFCbis.addObserver(match);
 		match.setTeamB(pheromaniacsFCbis);
 
 		System.out.println(match);
-		
+
 		match.teamA.kickOff();
-		while(match.getRemainingPlays() >= 0) {
+		while (match.getRemainingPlays() >= 0) {
 			System.out.println(match.logResult());
 			match.play();
 		}

@@ -3,16 +3,29 @@ package com.nokia.e2eo;
 import java.util.Random;
 
 public class SoccerGoalkeeper extends SoccerPlayer implements Goalkeeper {
-	
-	private SoccerTeam team;
-	
 
-	public SoccerGoalkeeper(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
+	private Float ATTACK_MULTIPLIER = 0.1f;
+	private Float DEFENSE_MULTIPLIER = 2.5f;
+	private Float PASS_DEF_MID_RATIO = 0.7f;
+
+	private SoccerGoalkeeper(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
 		super(name, attack, defense, dribbling, max_stamina);
-		this.setDefense(this.getDefense() * Goalkeeper.DEFENSE_MULTIPLIER);
-		this.setAttack(this.getAttack() * Goalkeeper.ATTACK_MULTIPLIER);
+		this.setDefense(this.getDefense() * this.DEFENSE_MULTIPLIER);
+		this.setAttack(this.getAttack() * this.ATTACK_MULTIPLIER);
 	}
-	
+
+	public static SoccerGoalkeeper defaultGoalkeeper(String name, Float attack, Float defense, Float dribbling,
+			Integer max_stamina) {
+		return new SoccerGoalkeeper(name, attack, defense, dribbling, max_stamina);
+	}
+
+	public static SoccerGoalkeeper ofensiveGoalkeeper(String name, Float attack, Float defense, Float dribbling,
+			Integer max_stamina) {
+		SoccerGoalkeeper goalkeeper = new SoccerGoalkeeper(name, attack, defense, dribbling, max_stamina);
+		goalkeeper.PASS_DEF_MID_RATIO = 0.3f;
+		return goalkeeper;
+	}
+
 	public SoccerTeam getTeam() {
 		return team;
 	}
@@ -22,16 +35,15 @@ public class SoccerGoalkeeper extends SoccerPlayer implements Goalkeeper {
 	}
 
 	@Override
-	void play() {
-		super.play();
+	void playImp() {
 		if (this.haveBall) {
 			this.pass();
-		}else {
-			this.log("Staying put close to the goal...");
+		} else {
+			// this.log("Staying put close to the goal...");
 		}
-		
+
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("[%s - %s]: \t %s", "G", this.name, super.toString());
@@ -44,7 +56,7 @@ public class SoccerGoalkeeper extends SoccerPlayer implements Goalkeeper {
 		} else {
 			this.passToMidfielder();
 		}
-		
+
 	}
 
 	@Override
@@ -55,7 +67,7 @@ public class SoccerGoalkeeper extends SoccerPlayer implements Goalkeeper {
 		this.releaseBall();
 		mate.receiveBall();
 		this.log(String.format("Passing forward to Defender %s...", mate.getName()));
-		
+
 	}
 
 	@Override
@@ -66,6 +78,6 @@ public class SoccerGoalkeeper extends SoccerPlayer implements Goalkeeper {
 		this.releaseBall();
 		mate.receiveBall();
 		this.log(String.format("Passing forward to Midfielder %s...", mate.getName()));
-		
+
 	}
 }

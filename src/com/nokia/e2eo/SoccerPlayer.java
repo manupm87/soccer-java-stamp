@@ -2,21 +2,21 @@ package com.nokia.e2eo;
 
 import java.util.Observable;
 
-public abstract class SoccerPlayer extends Observable{
+public abstract class SoccerPlayer extends Observable {
 	public static final Integer stamina_consumption = 5;
 	public static final Integer stamina_restoration = 10;
-	
+
 	public String name;
-	
+
 	public SoccerTeam team;
-	
+
 	public Float attack;
 	public Float defense;
 	public Float dribbling;
 	public Integer max_stamina;
 	public Integer cur_stamina;
 	public Boolean haveBall = false;
-	
+
 	public SoccerPlayer(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
 		super();
 		this.name = name;
@@ -25,41 +25,42 @@ public abstract class SoccerPlayer extends Observable{
 		this.dribbling = dribbling;
 		this.max_stamina = this.cur_stamina = max_stamina;
 	}
-	
+
 	public void scoreGoal() {
 		this.setChanged();
 		this.notifyObservers();
 	}
-	
-	
+
 	void rest() {
 		this.cur_stamina = Math.min(this.max_stamina, this.cur_stamina + SoccerPlayer.stamina_restoration);
 	}
-	
-	void play() {
+
+	final public void play() {
 		this.cur_stamina = Math.max(0, this.cur_stamina - SoccerPlayer.stamina_consumption);
+		this.playImp();
 	}
-	
-	public Boolean hasBall(){
+
+	abstract void playImp();
+
+	public Boolean hasBall() {
 		return this.haveBall;
 	}
-	
+
 	public void releaseBall() {
 		this.haveBall = false;
 	}
-	
+
 	public void receiveBall() {
 		this.haveBall = true;
 	}
-	
+
 	public String log(String message) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.format("%s [%s]: %s\r\n", this.name, this.getClass().getSimpleName(), message));
 		System.out.println(sb.toString());
 		return sb.toString();
 	}
-	
-	
+
 	public Float getAttack() {
 		return attack;
 	}
@@ -99,7 +100,6 @@ public abstract class SoccerPlayer extends Observable{
 	public void setCur_stamina(Integer cur_stamina) {
 		this.cur_stamina = cur_stamina;
 	}
-	
 
 	public SoccerTeam getTeam() {
 		return team;
