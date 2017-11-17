@@ -74,15 +74,22 @@ public class SoccerStriker extends SoccerPlayer implements Striker {
 	public void shoot() {
 		this.log("Shooting!");
 		this.releaseBall();
-
-		this.scoreGoal();
+		SoccerPlayer goalkeeper = (SoccerPlayer) this.oponentTeam.getGoalkeeper();
+		if(this.attack * this.rng.random() > goalkeeper.defense * this.rng.random()) {
+			this.scoreGoal();
+		}
+		else {
+			goalkeeper.log("Goalkeeper saves the goal!!");
+			goalkeeper.receiveBall();
+			
+		}
 	}
 
 	@Override
 	public void passBackwards() {
 		Random rand = new Random();
-		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getMidfielders()
-				.get(rand.nextInt(this.getTeam().getMidfielders().size()));
+		SoccerPlayer mate = (SoccerPlayer) this.getOwnTeam().getMidfielders()
+				.get(rand.nextInt(this.getOwnTeam().getMidfielders().size()));
 		this.releaseBall();
 		mate.receiveBall();
 		this.log(String.format("Passing backwards to %s...", mate.getName()));

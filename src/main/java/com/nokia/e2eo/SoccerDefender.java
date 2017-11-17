@@ -54,8 +54,8 @@ public class SoccerDefender extends SoccerPlayer implements Defender {
 	@Override
 	public void passForward() {
 		Random rand = new Random();
-		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getMidfielders()
-				.get(rand.nextInt(this.getTeam().getMidfielders().size()));
+		SoccerPlayer mate = (SoccerPlayer) this.getOwnTeam().getMidfielders()
+				.get(rand.nextInt(this.getOwnTeam().getMidfielders().size()));
 		this.releaseBall();
 		mate.receiveBall();
 		this.log(String.format("Passing forward to %s...", mate.getName()));
@@ -65,7 +65,7 @@ public class SoccerDefender extends SoccerPlayer implements Defender {
 	@Override
 	public void passBackwards() {
 		// TODO Auto-generated method stub
-		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getGoalkeeper();
+		SoccerPlayer mate = (SoccerPlayer) this.getOwnTeam().getGoalkeeper();
 		this.releaseBall();
 		mate.receiveBall();
 		this.log(String.format("Passing backwards to %s...", mate.getName()));

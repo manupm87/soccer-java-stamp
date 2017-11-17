@@ -27,11 +27,11 @@ public class SoccerGoalkeeper extends SoccerPlayer implements Goalkeeper {
 	}
 
 	public SoccerTeam getTeam() {
-		return team;
+		return ownTeam;
 	}
 
 	public void setTeam(SoccerTeam team) {
-		this.team = team;
+		this.ownTeam = team;
 	}
 
 	@Override

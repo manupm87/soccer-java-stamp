@@ -19,7 +19,7 @@ public class SoccerMatch implements Observer {
 		SoccerPlayer scorer = (SoccerPlayer) o;
 
 		System.out.println(scorer.getName() + " scored an amazing goal!!!");
-		if (teamA == scorer.getTeam()) {
+		if (teamA == scorer.getOwnTeam()) {
 			scoreTeamA++;
 			System.out.println(this.logResult());
 			teamB.kickOff();
@@ -113,13 +113,20 @@ public class SoccerMatch implements Observer {
 		pheromaniacsFCbis.addObserver(match);
 		match.setTeamB(pheromaniacsFCbis);
 
+
+		pheromaniacsFC.setOponentTeam(pheromaniacsFCbis);
+		pheromaniacsFCbis.setOponentTeam(pheromaniacsFC);
 		System.out.println(match);
 
+		System.out.println("Starting match!!\r\n");
 		match.teamA.kickOff();
 		while (match.getRemainingPlays() >= 0) {
-			System.out.println(match.logResult());
+			//System.out.println(match.logResult());
 			match.play();
 		}
+		
+		System.out.println("Match is over!!\r\n");
+		System.out.println(match.logResult());
 
 	}
 

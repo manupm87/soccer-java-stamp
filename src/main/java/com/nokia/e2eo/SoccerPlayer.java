@@ -6,29 +6,30 @@ import com.nokia.e2eo.util.RNG;
 import com.nokia.e2eo.util.RandomNumberGenerator;
 
 public abstract class SoccerPlayer extends Observable {
-	public static final Integer stamina_consumption = 5;
-	public static final Integer stamina_restoration = 10;
-
-	public String name;
-
-	public SoccerTeam team;
-
-	public Float attack;
-	public Float defense;
-	public Float dribbling;
-	public Integer max_stamina;
-	public Integer cur_stamina;
-	public Boolean haveBall = false;
+	protected static final Integer STAMINA_CONSUMPTION = 5;
+	protected static final Integer STAMINA_RESTORATION = 10;
+    
+	protected String name;
+    
+	protected SoccerTeam ownTeam;
+	protected SoccerTeam oponentTeam;
+    
+	protected Float attack;
+	protected Float defense;
+	protected Float dribbling;
+	protected Integer maxStamina;
+	protected Integer curStamina;
+	protected Boolean haveBall = false;
 	
 	protected RandomNumberGenerator rng;
 
-	public SoccerPlayer(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
+	protected SoccerPlayer(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
 		super();
 		this.name = name;
 		this.attack = attack;
 		this.defense = defense;
 		this.dribbling = dribbling;
-		this.max_stamina = this.cur_stamina = max_stamina;
+		this.maxStamina = this.curStamina = max_stamina;
 		this.rng = RNG.getInstance();
 	}
 
@@ -38,11 +39,11 @@ public abstract class SoccerPlayer extends Observable {
 	}
 
 	void rest() {
-		this.cur_stamina = Math.min(this.max_stamina, this.cur_stamina + SoccerPlayer.stamina_restoration);
+		this.curStamina = Math.min(this.curStamina, this.curStamina + SoccerPlayer.STAMINA_RESTORATION);
 	}
 
 	final public void play() {
-		this.cur_stamina = Math.max(0, this.cur_stamina - SoccerPlayer.stamina_consumption);
+		this.curStamina = Math.max(0, this.curStamina - SoccerPlayer.STAMINA_CONSUMPTION);
 		this.playImp();
 	}
 
@@ -62,7 +63,7 @@ public abstract class SoccerPlayer extends Observable {
 
 	public String log(String message) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("%s [%s]: %s\r\n", this.name, this.getClass().getSimpleName(), message));
+		sb.append(String.format("[%s] %s [%s]: %s\r\n", this.ownTeam.getName(), this.name, this.getClass().getSimpleName(), message));
 		System.out.println(sb.toString());
 		return sb.toString();
 	}
@@ -91,28 +92,36 @@ public abstract class SoccerPlayer extends Observable {
 		this.dribbling = dribbling;
 	}
 
-	public Integer getMax_stamina() {
-		return max_stamina;
+	public Integer getMaxStamina() {
+		return curStamina;
 	}
 
-	public void setMax_stamina(Integer max_stamina) {
-		this.max_stamina = max_stamina;
+	public void setMaxStamina(Integer max_stamina) {
+		this.curStamina = max_stamina;
 	}
 
-	public Integer getCur_stamina() {
-		return cur_stamina;
+	public Integer getCurStamina() {
+		return curStamina;
 	}
 
-	public void setCur_stamina(Integer cur_stamina) {
-		this.cur_stamina = cur_stamina;
+	public void setCurStamina(Integer cur_stamina) {
+		this.curStamina = cur_stamina;
 	}
 
-	public SoccerTeam getTeam() {
-		return team;
+	public SoccerTeam getOwnTeam() {
+		return ownTeam;
 	}
 
-	public void setTeam(SoccerTeam team) {
-		this.team = team;
+	public void setOwnTeam(SoccerTeam team) {
+		this.ownTeam = team;
+	}
+	
+	public SoccerTeam getOponentTeam() {
+		return oponentTeam;
+	}
+
+	public void setOponentTeam(SoccerTeam oponentTeam) {
+		this.oponentTeam = oponentTeam;
 	}
 
 	public String getName() {
@@ -129,9 +138,8 @@ public abstract class SoccerPlayer extends Observable {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		String representation = String.format("Attack: %f, Defense: %f, Dribbling: %f, Stamina: %d / %d", this.attack,
-				this.defense, this.dribbling, this.cur_stamina, this.max_stamina);
+				this.defense, this.dribbling, this.curStamina, this.curStamina);
 		return representation;
 	}
 

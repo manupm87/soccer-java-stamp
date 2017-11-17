@@ -70,8 +70,8 @@ public class SoccerMidfielder extends SoccerPlayer implements Midfielder {
 	@Override
 	public void passForward() {
 		Random rand = new Random();
-		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getStrikers()
-				.get(rand.nextInt(this.getTeam().getStrikers().size()));
+		SoccerPlayer mate = (SoccerPlayer) this.getOwnTeam().getStrikers()
+				.get(rand.nextInt(this.getOwnTeam().getStrikers().size()));
 		this.releaseBall();
 		mate.receiveBall();
 		this.log(String.format("Passing forward to %s...", mate.getName()));
@@ -81,8 +81,8 @@ public class SoccerMidfielder extends SoccerPlayer implements Midfielder {
 	@Override
 	public void passBackwards() {
 		Random rand = new Random();
-		SoccerPlayer mate = (SoccerPlayer) this.getTeam().getDefenders()
-				.get(rand.nextInt(this.getTeam().getDefenders().size()));
+		SoccerPlayer mate = (SoccerPlayer) this.getOwnTeam().getDefenders()
+				.get(rand.nextInt(this.getOwnTeam().getDefenders().size()));
 		this.releaseBall();
 		mate.receiveBall();
 		this.log(String.format("Passing backwards to %s...", mate.getName()));
@@ -93,8 +93,15 @@ public class SoccerMidfielder extends SoccerPlayer implements Midfielder {
 	public void shoot() {
 		this.log("Shooting!");
 		this.releaseBall();
-
-		this.scoreGoal();
+		SoccerPlayer goalkeeper = (SoccerPlayer) this.oponentTeam.getGoalkeeper();
+		if(this.attack * this.rng.random() > goalkeeper.defense * this.rng.random()) {
+			this.scoreGoal();
+		}
+		else {
+			goalkeeper.log("Goalkeeper saves the goal!!");
+			goalkeeper.receiveBall();
+			
+		}
 
 	}
 

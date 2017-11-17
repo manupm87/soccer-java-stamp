@@ -13,6 +13,8 @@ public class SoccerTeam {
 	private List<Midfielder> midfielders;
 	private List<Striker> strikers;
 	private List<SoccerPlayer> substitutes;
+	
+	private SoccerTeam oponentTeam;
 
 	public SoccerTeam(String name) {
 		this.name = name;
@@ -24,7 +26,7 @@ public class SoccerTeam {
 
 	private void addPlayer(SoccerPlayer player) {
 		players.add(player);
-		player.setTeam(this);
+		player.setOwnTeam(this);
 	}
 
 	public void addGoalkeeper(SoccerGoalkeeper player) {
@@ -119,6 +121,17 @@ public class SoccerTeam {
 
 	public void setSubstitutes(List<SoccerPlayer> substitutes) {
 		this.substitutes = substitutes;
+	}
+	
+	public SoccerTeam getOponentTeam() {
+		return oponentTeam;
+	}
+
+	public void setOponentTeam(SoccerTeam oponentTeam) {
+		this.oponentTeam = oponentTeam;
+		for (SoccerPlayer soccerPlayer : players) {
+			soccerPlayer.setOponentTeam(this.oponentTeam);
+		}
 	}
 
 	@Override
