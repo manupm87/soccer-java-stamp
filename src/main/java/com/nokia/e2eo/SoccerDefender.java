@@ -3,9 +3,9 @@ package com.nokia.e2eo;
 import java.util.Random;
 
 public class SoccerDefender extends SoccerPlayer implements Defender {
-	private Float ATTACK_MULTIPLIER = 0.5f;
-	private Float DEFENSE_MULTIPLIER = 2f;
-	private Float PASS_BACK_FORTH_RATIO = 0.3f;
+	Float ATTACK_MULTIPLIER = 0.5f;
+	Float DEFENSE_MULTIPLIER = 2f;
+	Float PASS_BACK_FORTH_RATIO = 0.3f;
 
 	private SoccerDefender(String name, Float attack, Float defense, Float dribbling, Integer max_stamina) {
 		super(name, attack, defense, dribbling, max_stamina);
@@ -43,7 +43,7 @@ public class SoccerDefender extends SoccerPlayer implements Defender {
 
 	@Override
 	public void pass() {
-		if (Math.random() < this.PASS_BACK_FORTH_RATIO) {
+		if (this.rng.random() < this.PASS_BACK_FORTH_RATIO) {
 			this.passBackwards();
 		} else {
 			this.passForward();

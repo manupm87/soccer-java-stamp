@@ -10,7 +10,7 @@ public class RNG implements RandomNumberGenerator {
 		// Exists only to defeat instantiation.
 	}
 
-	public static RNG getInstance() {
+	protected static RNG getInstance() {
 		if (instance == null) {
 			instance = new RNG();
 		}

@@ -3,6 +3,7 @@ package com.nokia.e2eo;
 import java.util.Observable;
 
 import com.nokia.e2eo.util.RNG;
+import com.nokia.e2eo.util.RNGFactory;
 import com.nokia.e2eo.util.RandomNumberGenerator;
 
 public abstract class SoccerPlayer extends Observable {
@@ -30,7 +31,7 @@ public abstract class SoccerPlayer extends Observable {
 		this.defense = defense;
 		this.dribbling = dribbling;
 		this.maxStamina = this.curStamina = max_stamina;
-		this.rng = RNG.getInstance();
+		this.rng = RNGFactory.rng();
 	}
 
 	public void scoreGoal() {
